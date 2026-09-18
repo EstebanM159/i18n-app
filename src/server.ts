@@ -8,9 +8,11 @@ import express from 'express';
 import { join } from 'node:path';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
-
+console.log('hola mundo desde server.ts');
 const app = express();
-const angularApp = new AngularNodeAppEngine();
+const angularApp = new AngularNodeAppEngine({
+  allowedHosts: ['localhost:4400', 'localhost', '127.0.0.1:4400'],
+});
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -39,11 +41,12 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
+  // Reescribe o limpia la cabecera Host si viene con puerto local
+  req.headers['host'] = req.headers['host']?.replace(/:4000$/, '') || 'localhost';
+
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
+    .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
     .catch(next);
 });
 
