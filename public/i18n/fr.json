@@ -11,7 +11,10 @@
         "perMonth": "par mois",
         "join": "Rejoindre",
         "online-ordering": "Commandes en ligne",
-        "limited-support": "Support limité"
+        "limited-support": "Support limité",
+        "support-24-7": "Support 24/7",
+        "special-events-access": "Accès aux événements spéciaux",
+        "personal-chef-consultation": "Consultation avec un chef personnel"
       },
       "basic": {
         "name": "Plan de Base",

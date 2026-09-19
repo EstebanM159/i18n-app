@@ -10,12 +10,12 @@
       <h2
         class="block antialiased tracking-normal font-sans text-4xl font-semibold leading-[1.3] text-white mb-4"
       >
-        Pricing
+        {{ 'app.pricingPage.title' | translate }}
       </h2>
       <p
         class="block antialiased font-sans text-xl font-normal leading-relaxed text-white mb-8 opacity-70"
       >
-        Choose the perfect plan for your dining experience
+        {{ 'app.pricingPage.description' | translate }}
       </p>
     </div>
   </div>
@@ -28,14 +28,14 @@
           <h5
             class="antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-green-500 flex justify-center mt-2 mb-2"
           >
-            Basic Plan
+            {{ 'app.plans.basic.name' | translate }}
           </h5>
           <h3
             class="antialiased tracking-normal font-sans text-3xl font-semibold leading-snug text-blue-gray-900 flex justify-center mt-5 mb-2"
           >
             $9.99<span
               class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-blue-gray-900 self-end -translate-y-1"
-              >/per month</span
+              >/{{ 'app.plans.texts.perMonth' | translate }}</span
             >
           </h3>
           <ul class="flex flex-col items-center justify-start gap-3 pt-6 mt-2 mb-5">
@@ -59,7 +59,7 @@
                 <p
                   class="block antialiased font-sans text-base leading-relaxed font-normal text-inherit"
                 >
-                  Online ordering
+                  {{ 'app.plans.texts.online-ordering' | translate }}
                 </p>
               </li>
               <li class="flex items-center gap-2 py-1 text-gray-700">
@@ -81,7 +81,7 @@
                 <p
                   class="block antialiased font-sans text-base leading-relaxed font-normal text-inherit"
                 >
-                  Limited support
+                  {{ 'app.plans.texts.limited-support' | translate }}
                 </p>
               </li>
             </div>
@@ -91,7 +91,7 @@
             type="button"
             routerLink="/basic-plan"
           >
-            join
+            {{ 'app.plans.texts.join' | translate }}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -117,15 +117,15 @@
           <h5
             class="antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-green-500 flex justify-center mt-2 mb-2"
           >
-            Premium Plan
+            {{ 'app.plans.pro.name' | translate }}
           </h5>
           <h3
             class="antialiased tracking-normal font-sans text-3xl font-semibold leading-snug text-blue-gray-900 flex justify-center mt-5 mb-2"
           >
             $19.99<span
               class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-blue-gray-900 self-end -translate-y-1"
-              >/per month</span
-            >
+              >/ {{ 'app.plans.texts.perMonth' | translate }}
+            </span>
           </h3>
           <ul class="flex flex-col items-center justify-start gap-3 pt-6 mt-2 mb-5">
             <div class="">
@@ -148,7 +148,7 @@
                 <p
                   class="block antialiased font-sans text-base leading-relaxed font-normal text-inherit"
                 >
-                  Online ordering
+                  {{ 'app.plans.texts.online-ordering' | translate }}
                 </p>
               </li>
               <li class="flex items-center gap-2 py-1 text-gray-700">
@@ -170,7 +170,7 @@
                 <p
                   class="block antialiased font-sans text-base leading-relaxed font-normal text-inherit"
                 >
-                  24/7 support
+                  {{ 'app.plans.texts.support-24-7' | translate }}
                 </p>
               </li>
               <li class="flex items-center gap-2 py-1 text-gray-700">
@@ -192,7 +192,7 @@
                 <p
                   class="block antialiased font-sans text-base leading-relaxed font-normal text-inherit"
                 >
-                  Special events access
+                  {{ 'app.plans.texts.special-events-access' | translate }}
                 </p>
               </li>
             </div>
@@ -201,7 +201,7 @@
             class="align-middle font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full flex items-center justify-center gap-4"
             type="button"
           >
-            join
+            {{ 'app.plans.texts.join' | translate }}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -227,14 +227,14 @@
           <h5
             class="antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-green-500 flex justify-center mt-2 mb-2"
           >
-            Ultimate Plan
+            {{ 'app.plans.enterprise.name' | translate }}
           </h5>
           <h3
             class="antialiased tracking-normal font-sans text-3xl font-semibold leading-snug text-blue-gray-900 flex justify-center mt-5 mb-2"
           >
             $29.99<span
               class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-blue-gray-900 self-end -translate-y-1"
-              >/per month</span
+              >{{ 'app.plans.texts.perMonth' | translate }}</span
             >
           </h3>
           <ul class="flex flex-col items-center justify-start gap-3 pt-6 mt-2 mb-5">
@@ -258,7 +258,7 @@
                 <p
                   class="block antialiased font-sans text-base leading-relaxed font-normal text-inherit"
                 >
-                  Online ordering
+                  {{ 'app.plans.texts.online-ordering' | translate }}
                 </p>
               </li>
               <li class="flex items-center gap-2 py-1 text-gray-700">
@@ -280,7 +280,7 @@
                 <p
                   class="block antialiased font-sans text-base leading-relaxed font-normal text-inherit"
                 >
-                  24/7 support
+                  {{ 'app.plans.texts.support-24-7' | translate }}
                 </p>
               </li>
               <li class="flex items-center gap-2 py-1 text-gray-700">
@@ -302,7 +302,7 @@
                 <p
                   class="block antialiased font-sans text-base leading-relaxed font-normal text-inherit"
                 >
-                  Special events access
+                  {{ 'app.plans.texts.special-events-access' | translate }}
                 </p>
               </li>
               <li class="flex items-center gap-2 py-1 text-gray-700">
@@ -324,7 +324,7 @@
                 <p
                   class="block antialiased font-sans text-base leading-relaxed font-normal text-inherit"
                 >
-                  Personal chef consultation
+                  {{ 'app.plans.texts.personal-chef-consultation' | translate }}
                 </p>
               </li>
             </div>
@@ -333,7 +333,7 @@
             class="align-middle font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full flex items-center justify-center gap-4"
             type="button"
           >
-            join
+            {{ 'app.plans.texts.join' | translate }}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

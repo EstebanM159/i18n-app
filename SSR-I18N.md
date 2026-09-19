@@ -11,7 +11,7 @@ La aplicación tenía esta secuencia:
 3. `translate.use('fr')` o `translate.use('it')` cargaba el JSON de forma asíncrona.
 4. El usuario veía primero español y después el idioma de la cookie.
 
-Ese cambio visible es el llamado *flash* de idioma.
+Ese cambio visible es el llamado _flash_ de idioma.
 
 También apareció un error durante SSR:
 
@@ -70,17 +70,9 @@ npm install @angular/ssr
 En `src/app/app.config.ts`:
 
 ```typescript
-import {
-  APP_INITIALIZER,
-  ApplicationConfig,
-  inject,
-  provideBrowserGlobalErrorListeners,
-} from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import {
-  provideTranslateService,
-  TranslateService,
-} from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideClientHydration } from '@angular/platform-browser';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
@@ -98,22 +90,6 @@ export const appConfig: ApplicationConfig = {
         failOnError: true,
       }),
     }),
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: () => {
-        const cookie = inject(SsrCookieService);
-        const translate = inject(TranslateService);
-
-        return () => {
-          const lang = cookie.check('lang')
-            ? cookie.get('lang')
-            : 'es';
-
-          return translate.use(lang);
-        };
-      },
-    },
     SsrCookieService,
   ],
 };
@@ -124,19 +100,21 @@ export const appConfig: ApplicationConfig = {
 - `fallbackLang: 'es'`: idioma de respaldo si una traducción no existe.
 - `provideTranslateHttpLoader(...)`: carga los JSON desde `public/i18n`.
 - `SsrCookieService`: permite leer la cookie tanto en el servidor como en el navegador.
-- `APP_INITIALIZER`: ejecuta código antes de que Angular termine de arrancar.
-- `translate.use(lang)`: devuelve un `Observable`; Angular espera a que el JSON termine de cargar.
-- Al esperar esa carga, el HTML inicial ya se renderiza en el idioma correcto.
+- `provideTranslateService(...)`: registra el traductor y su loader HTTP.
+- `fallbackLang: 'es'`: idioma de respaldo de ngx-translate.
+- La selección del idioma guardado se realiza en el constructor de `App`.
 
-No debe configurarse simultáneamente `lang: 'es'` y luego cambiar el idioma en el constructor de `App`. Eso vuelve a introducir el parpadeo.
+En esta aplicación no se define `lang: 'es'` dentro de `provideTranslateService`. El idioma se obtiene de la cookie y se cambia desde `App`.
 
 ## Componente raíz
 
-`src/app/app.ts` debe quedarse sin lógica de cambio de idioma:
+`src/app/app.ts` lee la cookie al crear la aplicación y aplica el idioma:
 
 ```typescript
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
+import { LanguageService } from './service/language.service';
 
 @Component({
   selector: 'app-root',
@@ -146,10 +124,18 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('i18n-app');
+  private readonly cookie = inject(SsrCookieService);
+  private readonly langService = inject(LanguageService);
+
+  constructor() {
+    const lang = this.cookie.check('lang') ? this.cookie.get('lang') : 'en';
+
+    this.langService.changeLanguage(lang);
+  }
 }
 ```
 
-La elección inicial del idioma pertenece al inicializador de configuración, no al constructor del componente raíz.
+Como el servidor y el navegador leen la misma cookie, ambos seleccionan el mismo idioma durante el arranque. El componente raíz es el punto donde se aplica la selección inicial en esta implementación.
 
 ## Servicio para cambiar el idioma
 
@@ -166,13 +152,17 @@ export class LanguageService {
   translate = inject(TranslateService);
 
   changeLanguage(lang: string) {
-    this.cookie.set('lang', lang);
+    this.cookie.set('lang', lang, {
+      expires: 365,
+      path: '/',
+      sameSite: 'Lax',
+    });
     this.translate.use(lang);
   }
 }
 ```
 
-La cookie se escribe al seleccionar un idioma. En la siguiente petición SSR, `APP_INITIALIZER` la leerá antes de renderizar.
+La cookie se conserva durante 365 días, está disponible para toda la aplicación y se envía con una política `SameSite=Lax`. En la siguiente petición SSR, `App` la leerá.
 
 ## Selector de idioma
 
@@ -195,14 +185,9 @@ changeLanguage(event: Event) {
 En la plantilla:
 
 ```html
-<select
-  [value]="currentLanguage()"
-  (change)="changeLanguage($event)"
->
+<select [value]="currentLanguage()" (change)="changeLanguage($event)">
   @for (language of languages(); track language.code) {
-    <option [value]="language.code">
-      {{ language.flag }}
-    </option>
+  <option [value]="language.code">{{ language.flag }}</option>
   }
 </select>
 ```
@@ -220,9 +205,7 @@ import { appConfig } from './app.config';
 import { serverRoutes } from './app.routes.server';
 
 const serverConfig: ApplicationConfig = {
-  providers: [
-    provideServerRendering(withRoutes(serverRoutes)),
-  ],
+  providers: [provideServerRendering(withRoutes(serverRoutes))],
 };
 
 export const config = mergeApplicationConfig(appConfig, serverConfig);
@@ -268,7 +251,7 @@ http://localhost:4000
 La URL usada en este proyecto:
 
 ```typescript
-prefix: 'http://localhost:4000/i18n/'
+prefix: 'http://localhost:4000/i18n/';
 ```
 
 resuelve el problema del SSR local porque Node necesita una URL absoluta y el servidor está escuchando en `4000`. No conviene dejarla fija en producción.
@@ -302,4 +285,4 @@ comprueba:
 4. Que el recurso esté disponible en el navegador, por ejemplo `http://localhost:4000/i18n/es.json`.
 5. Que hayas ejecutado `npm run build` antes de arrancar el servidor SSR.
 
-Si el texto aparece primero en español y luego cambia, normalmente significa que el idioma se está seleccionando en un componente o constructor después del arranque. La selección inicial debe permanecer dentro de `APP_INITIALIZER`.
+Si el texto aparece primero en español y luego cambia, comprueba que no exista otra configuración que fuerce `lang: 'es'` y que el servidor pueda cargar el JSON desde el puerto configurado.

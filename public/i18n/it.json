@@ -11,7 +11,10 @@
         "perMonth": "al mese",
         "join": "Iscriviti",
         "online-ordering": "Ordini online",
-        "limited-support": "Supporto limitato"
+        "limited-support": "Supporto limitato",
+        "support-24-7": "Supporto 24/7",
+        "special-events-access": "Accesso a eventi speciali",
+        "personal-chef-consultation": "Consulenza con chef personale"
       },
       "basic": {
         "name": "Piano Base",

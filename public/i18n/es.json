@@ -11,7 +11,10 @@
         "perMonth": "por mes",
         "join": "Unirse",
         "online-ordering": "Pedidos en línea",
-        "limited-support": "Soporte limitado"
+        "limited-support": "Soporte limitado",
+        "support-24-7": "Soporte 24/7",
+        "special-events-access": "Acceso a eventos especiales",
+        "personal-chef-consultation": "Consulta con chef personal"
       },
       "basic": {
         "name": "Plan Básico",
