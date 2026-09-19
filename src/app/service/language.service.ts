@@ -6,7 +6,8 @@ export class LanguageService {
   cookie = inject(SsrCookieService);
   translate = inject(TranslateService);
   changeLanguage(lang: string) {
-    this.cookie.set('lang', lang);
+    if (this.cookie.get('lang') === lang) return;
+    this.cookie.set('lang', lang, { expires: 365, path: '/', sameSite: 'Lax' });
     this.translate.use(lang);
   }
 }

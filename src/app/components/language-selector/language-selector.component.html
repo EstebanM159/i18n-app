@@ -1,5 +1,5 @@
 <p class="mt-10">{{ 'app.changeLanguage' | translate }}</p>
-<select [value]="currentLanguage()" (change)="changeLanguage($event)">
+<select [value]="currentLanguage()" (change)="changeLanguage($event)" autocomplete="off">
   @for (language of languages(); track language.code) {
     <option [value]="language.code">
       {{ language.flag }}
