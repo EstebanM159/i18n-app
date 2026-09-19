@@ -23,6 +23,10 @@ export const appConfig: ApplicationConfig = {
         failOnError: true,
       }),
     }),
+    provideTranslateHttpLoader({
+      prefix: '/i18n/',
+      failOnError: true,
+    }),
     provideAppInitializer(() => {
       const cookie = inject(SsrCookieService);
       const translate = inject(TranslateService);
