@@ -42,7 +42,6 @@ app.use(
  */
 app.use((req, res, next) => {
   // Reescribe o limpia la cabecera Host si viene con puerto local
-
   req.headers['host'] = req.headers['host']?.replace(/:4000$/, '') || 'localhost';
 
   angularApp

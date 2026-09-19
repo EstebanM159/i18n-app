@@ -11,11 +11,11 @@ import { LanguageService } from './service/language.service';
 })
 export class App {
   protected readonly title = signal('i18n-app');
-  private readonly cookie = inject(SsrCookieService);
-  private readonly langService = inject(LanguageService);
+  // private readonly cookie = inject(SsrCookieService);
+  // private readonly langService = inject(LanguageService);
 
-  constructor() {
-    const lang = this.cookie.check('lang') ? this.cookie.get('lang') : 'en';
-    this.langService.changeLanguage(lang);
-  }
+  // constructor() {
+  //   const lang = this.cookie.check('lang') ? this.cookie.get('lang') : 'en';
+  //   this.langService.changeLanguage(lang);
+  // }
 }

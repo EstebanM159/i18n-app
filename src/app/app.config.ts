@@ -23,6 +23,14 @@ export const appConfig: ApplicationConfig = {
         failOnError: true,
       }),
     }),
+    provideAppInitializer(() => {
+      const cookie = inject(SsrCookieService);
+      const translate = inject(TranslateService);
+
+      const lang = cookie.check('lang') ? cookie.get('lang') : 'en';
+
+      return translate.use(lang);
+    }),
     // Cookies
     SsrCookieService,
   ],
