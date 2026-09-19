@@ -9,7 +9,7 @@ import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 })
 export class LanguageSelectorComponent {
   languageService = inject(LanguageService);
-  currentLanguage = signal(this.languageService.cookie.get('lang') || 'es');
+  currentLanguage = signal(this.languageService.cookie.get('lang') || 'en');
   languages = signal([
     { code: 'en', flag: '🇺🇸' },
     { code: 'es', flag: '🇪🇸' },
@@ -22,6 +22,5 @@ export class LanguageSelectorComponent {
     const lang = target.value;
     this.currentLanguage.set(lang);
     this.languageService.changeLanguage(lang);
-    // console.log({ lang });
   }
 }

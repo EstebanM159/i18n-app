@@ -41,9 +41,8 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
-  const { headers } = req;
-  console.log({ headers });
   // Reescribe o limpia la cabecera Host si viene con puerto local
+
   req.headers['host'] = req.headers['host']?.replace(/:4000$/, '') || 'localhost';
 
   angularApp

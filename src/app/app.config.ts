@@ -17,18 +17,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideTranslateService({
-      fallbackLang: 'es',
+      fallbackLang: 'en',
       loader: provideTranslateHttpLoader({
         prefix: 'http://localhost:4000/i18n/',
         failOnError: true,
       }),
-    }),
-    provideAppInitializer(() => {
-      const cookie = inject(SsrCookieService);
-      const translate = inject(TranslateService);
-
-      const lang = cookie.check('lang') ? cookie.get('lang') : 'es';
-      return translate.use(lang);
     }),
     // Cookies
     SsrCookieService,
