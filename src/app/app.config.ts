@@ -1,10 +1,11 @@
 import {
   ApplicationConfig,
+  inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
-  type importProvidersFrom,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
@@ -17,11 +18,17 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideTranslateService({
       fallbackLang: 'es',
-      lang: 'es',
       loader: provideTranslateHttpLoader({
-        prefix: '/i18n/',
+        prefix: 'http://localhost:4000/i18n/',
         failOnError: true,
       }),
+    }),
+    provideAppInitializer(() => {
+      const cookie = inject(SsrCookieService);
+      const translate = inject(TranslateService);
+
+      const lang = cookie.check('lang') ? cookie.get('lang') : 'es';
+      return translate.use(lang);
     }),
     // Cookies
     SsrCookieService,
